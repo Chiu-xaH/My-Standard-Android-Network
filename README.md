@@ -1,0 +1,2 @@
+# MutableFlow-Record
+MutableStateFlow和MutableSharedFlow取代LiveData的示例代码
