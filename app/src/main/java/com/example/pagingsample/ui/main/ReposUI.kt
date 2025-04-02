@@ -2,7 +2,8 @@ package com.example.pagingsample.ui.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -17,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.pagingsample.ui.utils.AnimationCardListItem
 import com.example.pagingsample.viewmodel.NetworkViewModel
-import kotlinx.coroutines.async
 
 @Composable
 fun ReposUI(vm: NetworkViewModel) {
@@ -25,11 +25,11 @@ fun ReposUI(vm: NetworkViewModel) {
     var loading by remember { mutableStateOf(true) }
 
     LaunchedEffect(response) {
-        if(response != null) {
-            loading = false
+        if (response == null) {
+            loading = true
+            vm.searchRepositories("Android")
         } else {
-            async { loading = true }.await()
-            async { vm.searchRepositories("Android") }
+            loading = false
         }
     }
 
@@ -38,8 +38,8 @@ fun ReposUI(vm: NetworkViewModel) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     } else {
-        val repos = getList(vm)
-        LazyColumn(modifier = Modifier.padding()) {
+        val repos = response?.items ?: emptyList()
+        LazyColumn(modifier = Modifier.statusBarsPadding().navigationBarsPadding()) {
             items(repos.size) { index ->
                 val item = repos[index]
                 AnimationCardListItem(
