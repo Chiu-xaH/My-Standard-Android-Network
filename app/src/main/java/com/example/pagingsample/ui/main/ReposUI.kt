@@ -41,16 +41,15 @@ fun ReposUI(vm: NetworkViewModel) {
         val repos = response?.items ?: emptyList()
         LazyColumn(modifier = Modifier.statusBarsPadding().navigationBarsPadding()) {
             items(repos.size) { index ->
-                val item = repos[index]
-                AnimationCardListItem(
-                    headlineContent = {
-                        Text(item.name)
-                    },
-                    supportingContent = item.description?.let {
-                        { Text(it) }
-                    },
-                    index = index
-                )
+                with(repos[index]) {
+                    AnimationCardListItem(
+                        headlineContent = { Text(name) },
+                        supportingContent = description?.let {
+                            { Text(it) }
+                        },
+                        index = index
+                    )
+                }
             }
         }
     }
