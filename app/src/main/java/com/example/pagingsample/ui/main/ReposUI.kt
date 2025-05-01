@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.pagingsample.logic.network.repo.UiState
 import com.example.pagingsample.ui.utils.AnimationCardListItem
+import com.example.pagingsample.ui.utils.CommonNetworkScreen
 import com.example.pagingsample.ui.utils.RefreshIndicator
 import com.example.pagingsample.viewmodel.NetworkViewModel
 import kotlinx.coroutines.launch
@@ -49,31 +50,19 @@ fun ReposUI(vm: NetworkViewModel) {
     }
 
     Box(modifier = Modifier.fillMaxSize().pullRefresh(pullRefreshState)) {
-        when (uiState) {
-            UiState.Empty -> {
-                Text(modifier = Modifier.align(Alignment.Center), text = "无结果")
-            }
-            is UiState.Error -> {
-                val e = (uiState as UiState.Error).exception
-                Text(modifier = Modifier.align(Alignment.Center), text = "错误 " + e?.message)
-            }
-            UiState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-            is UiState.Success -> {
-                val response = (uiState as UiState.Success).data
-                val repos = response?.items ?: emptyList()
-                LazyColumn(modifier = Modifier.statusBarsPadding().navigationBarsPadding()) {
-                    items(repos.size) { index ->
-                        with(repos[index]) {
-                            AnimationCardListItem(
-                                headlineContent = { Text(name) },
-                                supportingContent = description?.let {
-                                    { Text(it) }
-                                },
-                                index = index
-                            )
-                        }
+        CommonNetworkScreen(uiState) {
+            val response = (uiState as UiState.Success).data
+            val repos = response?.items ?: emptyList()
+            LazyColumn(modifier = Modifier.statusBarsPadding().navigationBarsPadding()) {
+                items(repos.size) { index ->
+                    with(repos[index]) {
+                        AnimationCardListItem(
+                            headlineContent = { Text(name) },
+                            supportingContent = description?.let {
+                                { Text(it) }
+                            },
+                            index = index
+                        )
                     }
                 }
             }
