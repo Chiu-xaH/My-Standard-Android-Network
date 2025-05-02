@@ -1,15 +1,13 @@
-package com.example.pagingsample.ui.main
+package com.example.pagingsample.ui.screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,10 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.pagingsample.logic.network.repo.UiState
-import com.example.pagingsample.ui.utils.AnimationCardListItem
-import com.example.pagingsample.ui.utils.CommonNetworkScreen
-import com.example.pagingsample.ui.utils.RefreshIndicator
+import com.example.pagingsample.ui.utils.UiState
+import com.example.pagingsample.ui.component.AnimationCardListItem
+import com.example.pagingsample.ui.component.CommonNetworkScreen
+import com.example.pagingsample.ui.component.RefreshIndicator
 import com.example.pagingsample.viewmodel.NetworkViewModel
 import kotlinx.coroutines.launch
 
@@ -54,7 +52,7 @@ fun ReposUI(vm: NetworkViewModel) {
             val response = (uiState as UiState.Success).data
             val repos = response?.items ?: emptyList()
             LazyColumn(modifier = Modifier.statusBarsPadding().navigationBarsPadding()) {
-                items(repos.size) { index ->
+                items(repos.size, key = { it }) { index ->
                     with(repos[index]) {
                         AnimationCardListItem(
                             headlineContent = { Text(name) },

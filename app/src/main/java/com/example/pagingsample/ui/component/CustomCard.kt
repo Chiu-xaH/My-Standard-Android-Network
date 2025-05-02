@@ -1,4 +1,4 @@
-package com.example.pagingsample.ui.utils
+package com.example.pagingsample.ui.component
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseInOutQuad

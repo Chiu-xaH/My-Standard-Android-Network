@@ -1,4 +1,4 @@
-package com.example.pagingsample.ui.utils
+package com.example.pagingsample.ui.component
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator

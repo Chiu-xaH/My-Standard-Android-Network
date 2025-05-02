@@ -1,7 +1,7 @@
 package com.example.pagingsample.activity
 
 import androidx.compose.runtime.Composable
-import com.example.pagingsample.ui.main.ReposUI
+import com.example.pagingsample.ui.screen.ReposUI
 
 class MainActivity : BaseActivity() {
     @Composable
